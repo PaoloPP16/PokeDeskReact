@@ -1,25 +1,27 @@
-import logo from './logo.svg';
+import React from "react"
 import './App.css';
-
+//import HighImg from "./components/HighImg";
+//import ApiPokeC from "./components/ApiPokeC"
+import {BrowserRouter,Routes,Route} from "react-router-dom"
+import ApiAll from "./components/ApiAll"
+import Favorito from "./pages/Favorito"
+import DetailPokemon from "./pages/DetailPokemon"
+import {FirstUp} from "./components/FirstUp"
+import PokeProvider from "./components/PokemonContex";
 function App() {
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+      <FirstUp>
+        <BrowserRouter>
+        <Routes>
+        < Route path= '/' element= { <ApiAll/> }/>
+        < Route path= '/pokemon/:id' element= { <DetailPokemon/> }/>
+        < Route path= '/favoritos' element= { <Favorito/> }/>
+        </Routes>
+        </BrowserRouter>
+      </FirstUp>
+
+  )
 }
 
 export default App;
