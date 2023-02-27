@@ -1,31 +1,31 @@
-import React, { useState, createContext } from "react";
+import React, { useState, createContext} from "react";
+import { useReducer } from "react";
 
-const [favoritePokemon,setFavoritePokemon]= useState([])
-setFavoritePokemon("aaa")
-const pokemonContexFavorite = createContext(
-    favoritePokemon
-);
-const pokemonContexSetFavorite = createContext(
-    setFavoritePokemon
-);
+export const PokemonContexFavorite= createContext();
 
 
-
-// export function usePokeContexFavorite(){
-//     return useContext(pokemonContexFavorite)
-// }
-// export function usepokeContexSetFavorite(){
-//     return useContext(pokemonContexSetFavorite)
-// }
-// function PokeProvider({Children}) {
-//     const [favoritePokemon,setFavoritePokemon]= useState([])
-//     return (
-//         <pokemonContexFavorite value={favoritePokemon}>
-//             <pokemonContexSetFavorite value={setFavoritePokemon}>
-//                 {Children}
-//             </pokemonContexSetFavorite>
-//         </pokemonContexFavorite>
-//     );
-// }
-
-// export default PokeProvider;
+function PokeProvider({children}) {
+    const [favoritePokemon,setFavoritePokemon]= useState([])
+    const [shoppingCar,dispatchShoppingCar] = useReducer((state = [], action) => {
+        switch(action.type){
+            case 'add_shoppingCar':{
+                return [
+                    ...state,
+                    {id: state.length, name: action.name}
+                ]
+            }
+            case 'remove_shoppingCar': {
+                return state.filter((task,index)=> index != action.index);
+            }
+            default :{
+               console.log("error")
+            }
+        }
+    });
+    return (
+        <PokemonContexFavorite.Provider value={{favoritePokemon,setFavoritePokemon,shoppingCar,dispatchShoppingCar}}>
+                {children}
+        </PokemonContexFavorite.Provider>
+    )
+}
+export default PokeProvider;
